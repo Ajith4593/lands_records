@@ -1,0 +1,13 @@
+{
+  "name": "uc076-land-records-integrity",
+  "version": "2.0.0",
+  "private": true,
+  "description": "UC-076 Land-Records Integrity via Quantum-Safe Ledgers",
+  "scripts": {
+    "start": "npm start --prefix backend",
+    "dev": "npm start --prefix backend",
+    "test": "npm test --prefix backend",
+    "seed": "npm run seed --prefix backend",
+    "build": "npm run build --prefix frontend"
+  }
+}
