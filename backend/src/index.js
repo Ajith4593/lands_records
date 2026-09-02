@@ -24,14 +24,24 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/landrecords';
 
+// Render sits behind a reverse proxy; trust the forwarded headers so rate limiting
+// and session/cookie behavior work correctly in production.
+app.set('trust proxy', 1);
+
 // ── Middleware ────────────────────────────────────────────────────────────────
-const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5173',
+const allowedOrigins = Array.from(new Set([
+  process.env.FRONTEND_URL,
+  process.env.RENDER_EXTERNAL_URL,
+  'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
   'http://127.0.0.1:5174',
-];
+].filter(Boolean)));
+
+if (allowedOrigins.length === 0) {
+  allowedOrigins.push('http://localhost:5173');
+}
 
 app.use(cors({
   origin: function (origin, callback) {

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: landrecords
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: |
+      npm install --prefix backend
+      npm install --prefix frontend
+      npm run build --prefix frontend
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DEMO_MODE
+        value: true
+      - key: PQC_PROVIDER
+        value: ecdsa_dev_fallback
+      - key: MONGODB_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
